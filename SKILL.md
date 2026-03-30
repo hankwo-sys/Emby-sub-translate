@@ -2,30 +2,51 @@
 
 ## 安裝
 
-1. 複製配置範例：
+1. 克隆倉庫：
 ```bash
-cp ~/.openclaw/workspace/skills/emby-subtitle-translator/config.json.example ~/.openclaw/workspace/skills/emby-subtitle-translator/config.json
+git clone https://github.com/hankwo-sys/Emby-sub-translate.git
+cd Emby-sub-translate
 ```
 
-2. 編輯配置：
+2. 創建配置文件：
 ```bash
-nano ~/.openclaw/workspace/skills/emby-subtitle-translator/config.json
+cp config.json.example config.json
+nano config.json
 ```
 
-填入：
-- Emby API Key
-- SSH 帳號密碼
-- Telegram Chat ID
-
-3. 安裝依賴：
-```bash
-pip3 install requests
+3. 編輯配置：
+```json
+{
+  "emby": {
+    "host": "請填入 Emby 伺服器 IP",
+    "port": 2095,
+    "api_key": "請填入 Emby API Key"
+  },
+  "ssh": {
+    "host": "請填入 SSH 伺服器 IP",
+    "port": 22,
+    "user": "root",
+    "password": "請填入 SSH 密碼"
+  },
+  "telegram": {
+    "chat_id": "請填入 Telegram Chat ID"
+  },
+  "subtitle": {
+    "source_language": "eng",
+    "target_language": "chi",
+    "batch_size": 120
+  }
+}
 ```
+
+⚠️ **安全警告：**
+- `config.json` 包含敏感資訊，已加入 `.gitignore`
+- 不要手動上傳 `config.json` 到 GitHub
+- 不要將密碼提交到版本控制
 
 ## 使用方式
 
-### 在對話中直接使用
-
+### 在對話中使用
 ```
 搜尋電影 恐懼夜話
 翻譯字幕 1135189
@@ -33,9 +54,8 @@ pip3 install requests
 ```
 
 ### 命令行使用
-
 ```bash
-python3 ~/.openclaw/workspace/skills/emby-subtitle-translator/emby_subtitle_translator.py "恐懼夜話" eng
+python3 emby_subtitle_translator.py "恐懼夜話" eng
 ```
 
 ## 工作流程

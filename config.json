@@ -1,17 +1,17 @@
 {
   "emby": {
-    "host": "154.40.54.28",
+    "host": "請填入 Emby 伺服器 IP",
     "port": 2095,
-    "api_key": "8fb7ec7cc1474955bed3c98789daa36b"
+    "api_key": "請填入 Emby API Key"
   },
   "ssh": {
-    "host": "154.40.54.28",
+    "host": "請填入 SSH 伺服器 IP",
     "port": 22,
     "user": "root",
-    "password": "3eds78fcUs2a39Tk"
+    "password": "請填入 SSH 密碼"
   },
   "telegram": {
-    "chat_id": "738187802"
+    "chat_id": "請填入 Telegram Chat ID"
   },
   "subtitle": {
     "source_language": "eng",

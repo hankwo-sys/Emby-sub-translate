@@ -10,33 +10,26 @@
 4. Telegram 確認翻譯品質
 5. 上傳中文字幕到 Emby 伺服器
 
-## 配置
+## 安裝
 
-在 `~/.openclaw/workspace/skills/emby-subtitle-translator/config.json` 創建配置：
-
-```json
-{
-  "emby": {
-    "host": "154.40.54.28",
-    "port": 2095,
-    "api_key": "8fb7ec7cc1474955bed3c98789daa36b"
-  },
-  "ssh": {
-    "host": "154.40.54.28",
-    "port": 22,
-    "user": "root",
-    "password": "3eds78fcUs2a39Tk"
-  },
-  "telegram": {
-    "chat_id": "738187802"
-  },
-  "subtitle": {
-    "source_language": "eng",
-    "target_language": "chi",
-    "batch_size": 120
-  }
-}
+1. 克隆倉庫：
+```bash
+git clone https://github.com/hankwo-sys/Emby-sub-translate.git
+cd Emby-sub-translate
 ```
+
+2. 創建配置文件：
+```bash
+cp config.json.example config.json
+nano config.json
+```
+
+3. 編輯配置，填入你的資訊：
+- Emby API Key
+- SSH 帳號密碼
+- Telegram Chat ID
+
+⚠️ **重要：不要將 config.json 上傳到 GitHub！**
 
 ## 使用方式
 
@@ -48,14 +41,14 @@
 
 ### 提取並翻譯字幕
 ```
-翻譯字幕 [電影ID]
+翻譯字幕 [電影 ID]
 翻譯字幕 1135189
 ```
 
 ### 指定語言
 ```
-翻譯字幕 [電影ID] 英文
-翻譯字幕 [電影ID] eng
+翻譯字幕 [電影 ID] 英文
+翻譯字幕 [電影 ID] eng
 ```
 
 ## 工作流程
