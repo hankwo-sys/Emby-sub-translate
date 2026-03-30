@@ -1,0 +1,21 @@
+{
+  "emby": {
+    "host": "154.40.54.28",
+    "port": 2095,
+    "api_key": "8fb7ec7cc1474955bed3c98789daa36b"
+  },
+  "ssh": {
+    "host": "154.40.54.28",
+    "port": 22,
+    "user": "root",
+    "password": "3eds78fcUs2a39Tk"
+  },
+  "telegram": {
+    "chat_id": "738187802"
+  },
+  "subtitle": {
+    "source_language": "eng",
+    "target_language": "chi",
+    "batch_size": 120
+  }
+}
