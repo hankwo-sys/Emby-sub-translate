@@ -157,24 +157,29 @@ class EmbySubtitleTranslator:
     def translate_with_deepseek(self, subtitle_path: str, batch_size: int = 120) -> str:
         """用 DeepSeek 翻譯字幕"""
         print("🤖 開始用 DeepSeek 翻譯字幕...")
-        
+
         # 讀取字幕
         with open(subtitle_path, 'r', encoding='utf-8') as f:
             content = f.read()
-        
+
         # 分割成批次
         lines = content.split('\n')
         total_batches = (len(lines) + batch_size - 1) // batch_size
-        
+
         translated_content = []
-        
+
+        # 翻譯進度追蹤
+        start_time = time.time()
+        last_report_time = start_time
+        report_interval = 15 * 60  # 15 分鐘
+
         for i in range(0, len(lines), batch_size):
             batch_num = (i // batch_size) + 1
             print(f"📝 翻譯批次 {batch_num}/{total_batches}...")
-            
+
             batch_lines = lines[i:i+batch_size]
             batch_text = '\n'.join(batch_lines)
-            
+
             # 構建提示詞
             prompt = f"""請幫我把這個電影 SRT 字幕從英文翻譯成繁體中文。
 
@@ -190,25 +195,39 @@ class EmbySubtitleTranslator:
 {batch_text}
 
 請直接返回翻譯後的 SRT 內容，不要其他說明。"""
-            
+
             # 調用 DeepSeek（這裡需要用瀏覽器自動化）
             # 由於 DeepSeek 網頁版需要登入，這裡用瀏覽器操作
             translated_batch = self.call_deepseek_api(prompt)
-            
+
             if translated_batch:
                 translated_content.append(translated_batch)
-            
+
+            # 每 15 分鐘發送進度報告
+            current_time = time.time()
+            if current_time - last_report_time >= report_interval:
+                elapsed_minutes = int((current_time - start_time) / 60)
+                progress_percent = (batch_num / total_batches) * 100
+                remaining_batches = total_batches - batch_num
+                est_remaining_min = int((remaining_batches * (elapsed_minutes / batch_num)) if batch_num > 0 else 0)
+
+                progress_msg = f"📊 翻譯進度報告\n━━━━━━━━━━━━━━\n⏱️ 已耗時：{elapsed_minutes} 分鐘\n📝 已完成：{batch_num}/{total_batches} 批次 ({progress_percent:.1f}%)\n⏳ 預計剩餘：{est_remaining_min} 分鐘\n📍 當前：批次 {batch_num}"
+
+                print(progress_msg)
+                self.send_progress_to_telegram(progress_msg)
+                last_report_time = current_time
+
             # 避免請求過快
             time.sleep(2)
-        
+
         # 合併翻譯結果
         final_content = '\n'.join(translated_content)
-        
+
         # 保存翻譯結果
         output_path = subtitle_path.replace('.srt', '.zh.srt')
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(final_content)
-        
+
         print(f"✅ 翻譯完成：{output_path}")
         return output_path
     
@@ -233,21 +252,34 @@ class EmbySubtitleTranslator:
     def send_to_telegram(self, subtitle_path: str):
         """發送到 Telegram 確認"""
         print("📤 發送到 Telegram 確認...")
-        
+
         tg_config = self.config.get('telegram', {})
         chat_id = tg_config.get('chat_id')
-        
+
         if not chat_id:
             print("⚠️ 未配置 Telegram chat_id")
             return
-        
+
         # 讀取字幕檔（前 50 行作為預覽）
         with open(subtitle_path, 'r', encoding='utf-8') as f:
             preview = '\n'.join(f.readlines()[:50])
-        
+
         # 發送消息（需要調用 message 工具）
         print(f"📤 預覽發送到 Telegram (chat_id: {chat_id})")
         print(preview[:500])
+
+    def send_progress_to_telegram(self, message: str):
+        """發送翻譯進度到 Telegram"""
+        tg_config = self.config.get('telegram', {})
+        chat_id = tg_config.get('chat_id')
+
+        if not chat_id:
+            return
+
+        # 這裡需要調用 message 工具發送消息
+        # 實際實現由 OpenClaw 的 message 工具完成
+        # 這裡只打印信息
+        print(f"📱 發送進度報告到 Telegram: {message}")
     
     def upload_subtitle(self, subtitle_path: str, movie_path: str):
         """上傳字幕到伺服器"""
