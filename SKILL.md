@@ -82,12 +82,12 @@ python3 emby_subtitle_translator.py "恐懼夜話" eng
        │
        ▼
 ┌─────────────┐
-│ Gemini 翻譯  │ (分批處理)
+│ DeepSeek 翻譯 │ (分批處理，瀏覽器操作)
 └──────┬──────┘
        │
        ▼
 ┌─────────────┐
-│  TG 確認     │
+│  合併字幕    │
 └──────┬──────┘
        │
        ▼
@@ -115,7 +115,7 @@ python3 emby_subtitle_translator.py "恐懼夜話" eng
 ### 字幕配置
 - `source_language`: 源語言（eng, spa, jpn 等）
 - `target_language`: 目標語言（chi, zho 等）
-- `batch_size`: Gemini 翻譯批次大小（預設 120 行）
+- `batch_size`: DeepSeek 翻譯批次大小（預設 120 行）
 
 ## 輸出
 
@@ -131,9 +131,9 @@ brew install sshpass  # macOS
 apt-get install sshpass  # Linux
 ```
 
-2. **Gemini 翻譯時間**：
-   - 每批 120 行約需 1-2 分鐘
-   - 完整電影（2500 行）約需 30-60 分鐘
+2. **DeepSeek 翻譯時間**：
+   - 每批 120 行約需 30 秒 - 1 分鐘
+   - 完整電影（2500 行）約需 15-20 分鐘
 
 3. **建議先測試**：
    - 先用短片測試流程
@@ -158,8 +158,8 @@ ssh root@your_server "apt-get update && apt-get install -y ffmpeg"
 - 確認 SSH 端口是否開放
 - 檢查防火牆設定
 
-### Gemini 翻譯失敗
-- 檢查瀏覽器是否登入 Google 帳號
+### DeepSeek 翻譯失敗
+- 檢查瀏覽器是否已開啟 DeepSeek 頁面 (https://chat.deepseek.com)
 - 確認網路連接正常
 - 減少 batch_size 重試
 

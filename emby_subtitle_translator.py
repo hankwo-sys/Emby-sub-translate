@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Emby-sub-translate Skill
-自動從 Emby 伺服器提取電影字幕，用 Gemini 翻譯成中文，並上傳回伺服器
+自動從 Emby 伺服器提取電影字幕，用 DeepSeek 翻譯成中文，並上傳回伺服器
 """
 
 import json
@@ -154,9 +154,9 @@ class EmbySubtitleTranslator:
         else:
             raise RuntimeError("❌ 字幕提取失敗")
     
-    def translate_with_gemini(self, subtitle_path: str, batch_size: int = 120) -> str:
-        """用 Gemini 翻譯字幕"""
-        print("🤖 開始用 Gemini 翻譯字幕...")
+    def translate_with_deepseek(self, subtitle_path: str, batch_size: int = 120) -> str:
+        """用 DeepSeek 翻譯字幕"""
+        print("🤖 開始用 DeepSeek 翻譯字幕...")
         
         # 讀取字幕
         with open(subtitle_path, 'r', encoding='utf-8') as f:
@@ -191,9 +191,9 @@ class EmbySubtitleTranslator:
 
 請直接返回翻譯後的 SRT 內容，不要其他說明。"""
             
-            # 調用 Gemini API（這裡需要用瀏覽器自動化）
-            # 由於 Gemini API 需要特殊配置，這裡用偽代碼
-            translated_batch = self.call_gemini_api(prompt)
+            # 調用 DeepSeek（這裡需要用瀏覽器自動化）
+            # 由於 DeepSeek 網頁版需要登入，這裡用瀏覽器操作
+            translated_batch = self.call_deepseek_api(prompt)
             
             if translated_batch:
                 translated_content.append(translated_batch)
@@ -212,21 +212,22 @@ class EmbySubtitleTranslator:
         print(f"✅ 翻譯完成：{output_path}")
         return output_path
     
-    def call_gemini_api(self, prompt: str) -> Optional[str]:
-        """調用 Gemini API（需要瀏覽器自動化）"""
-        # 這裡需要用 browser 工具自動化 Gemini 網頁
+    def call_deepseek_api(self, prompt: str) -> Optional[str]:
+        """調用 DeepSeek（需要瀏覽器自動化）"""
+        # 這裡需要用 browser 工具自動化 DeepSeek 網頁
         # 由於這是 Skill 代碼，實際實現需要調用 OpenClaw 的 browser 工具
         # 這裡用偽代碼表示
-        
-        print("⏳ 正在調用 Gemini...")
+
+        print("⏳ 正在調用 DeepSeek...")
         time.sleep(5)  # 模擬 API 調用
-        
+
         # 實際實現需要：
-        # 1. 用 browser.navigate 到 gemini.google.com
-        # 2. 用 browser.act 輸入提示詞
-        # 3. 用 browser.snapshot 獲取翻譯結果
-        # 4. 解析並返回結果
-        
+        # 1. 用 browser.navigate 到 chat.deepseek.com
+        # 2. 用 browser.act 點擊輸入框並輸入提示詞
+        # 3. 用 browser.act 點擊發送按鈕
+        # 4. 用 browser.snapshot 獲取翻譯結果
+        # 5. 解析並返回結果
+
         return None  # 偽代碼返回
     
     def send_to_telegram(self, subtitle_path: str):
@@ -311,7 +312,7 @@ class EmbySubtitleTranslator:
         subtitle_path = self.extract_subtitle(movie_path, language)
         
         # 5. 翻譯字幕
-        translated_path = self.translate_with_gemini(subtitle_path)
+        translated_path = self.translate_with_deepseek(subtitle_path)
         
         # 6. 發送到 Telegram 確認
         self.send_to_telegram(translated_path)
