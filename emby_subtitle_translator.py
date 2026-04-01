@@ -232,7 +232,21 @@ class EmbySubtitleTranslator:
         return output_path
     
     def call_deepseek_api(self, prompt: str) -> Optional[str]:
-        """調用 DeepSeek（需要瀏覽器自動化）"""
+        """調用 DeepSeek（需要瀏覽器自動化）
+
+        瀏覽器自動化實現方式：
+        1. 使用 OpenClaw 內建 browser 工具
+        2. 或使用 browser-use Skill
+        3. 或使用 MCP (Model Context Protocol)
+
+        實現步驟：
+        1. browser.navigate → chat.deepseek.com
+        2. browser.act(click) → 點擊輸入框
+        3. browser.act(type) → 輸入翻譯提示詞
+        4. browser.act(press Enter) → 發送翻譯請求
+        5. browser.snapshot → 獲取翻譯結果
+        6. 解析並返回結果
+        """
         # 這裡需要用 browser 工具自動化 DeepSeek 網頁
         # 由於這是 Skill 代碼，實際實現需要調用 OpenClaw 的 browser 工具
         # 這裡用偽代碼表示
