@@ -1,12 +1,12 @@
 # Emby-sub-translate Skill
 
-自動從 Emby 伺服器提取電影字幕，用 Gemini 翻譯成中文，並上傳回伺服器。
+自動從 Emby 伺服器提取電影字幕，用 Deepseek 翻譯成中文，並上傳回伺服器。
 
 ## 功能
 
 1. 連接 Emby API 搜尋電影
 2. SSH 進入伺服器提取字幕
-3. 用 Gemini 翻譯成繁體中文
+3. 用 DeepSeek 翻譯成繁體中文
 4. Telegram 確認翻譯品質
 5. 上傳中文字幕到 Emby 伺服器
 
